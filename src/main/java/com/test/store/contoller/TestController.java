@@ -18,5 +18,7 @@ public class TestController {
         orderService.modOrderStatus("1705426765",5);
         System.out.println("hello git");
         System.out.println("hello git2");
+        System.out.println("push to github");
+
     }
 }
