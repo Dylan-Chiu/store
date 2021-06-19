@@ -15,10 +15,5 @@ public class TestController {
 
     @RequestMapping("test")
     public void test() {
-        orderService.modOrderStatus("1705426765",5);
-        System.out.println("hello git");
-        System.out.println("hello git2");
-        System.out.println("push to github");
-        System.out.println("alter in github");
     }
 }
