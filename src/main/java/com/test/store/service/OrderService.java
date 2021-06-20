@@ -3,6 +3,7 @@ package com.test.store.service;
 import com.alibaba.fastjson.JSON;
 import com.test.store.entity.Order;
 import com.test.store.entity.OrderDetail;
+import com.test.store.util.StatusCodeUtils;
 import com.test.store.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,7 +28,6 @@ public class OrderService {
      * @return
      */
     public String createOrder(Order order) {
-        HashMap<String, Integer> message = new HashMap<String, Integer>();
         //使用uuid给order加上订单编号
         order.setOrder_id(UUIDUtils.getStringUUID());
 
@@ -35,16 +35,13 @@ public class OrderService {
         order.setStatus(1);
 
         //订单创建时间
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        String date = simpleDateFormat.format(new Date().getTime());
         order.setOrder_time(new Date());
 
         //检查库存，并更改Goods表
         try {
             updateGoodsService.updateGoods(order.getDetail());
         } catch (Exception e) {
-            message.put("status", -3);//状态码-3代表库存不够
-            return JSON.toJSONString(message);
+            return StatusCodeUtils.getCodeJsonString(StatusCodeUtils.STOCK_ERROR);
         }
 
 
@@ -59,8 +56,7 @@ public class OrderService {
         for (OrderDetail d : detail) {
             jdbcTemplate.update(sql_insert_detail, order.getOrder_id(), d.getGoodsId(), d.getAmount());
         }
-        message.put("status", 1);
-        return JSON.toJSONString(message);
+        return StatusCodeUtils.getCodeJsonString(StatusCodeUtils.SUCCESS_1);
     }
 
     /**

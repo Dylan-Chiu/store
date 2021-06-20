@@ -1,10 +1,9 @@
 package com.test.store.service;
 
 import com.alibaba.fastjson.JSON;
-import com.test.store.entity.Consumer;
 import com.test.store.entity.User;
 import com.test.store.util.PasswordUtils;
-import com.test.store.util.StatusCodeUtil;
+import com.test.store.util.StatusCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -39,12 +38,12 @@ public class LoginService {
 
         //验证用户名
         if (maps.isEmpty()) { //用户不存在
-            return StatusCodeUtil.getCodeJsonString(StatusCodeUtil.USERNAME_ERROR);
+            return StatusCodeUtils.getCodeJsonString(StatusCodeUtils.USERNAME_ERROR);
         }
         //验证密码
         String realPassword_MD5 = (String) maps.get(0).get("password");
         if (!PasswordUtils.checkPassword(realPassword_MD5, loginUser.getPassword())) {//密码错误
-            return StatusCodeUtil.getCodeJsonString(StatusCodeUtil.PASSWORD_ERROR);
+            return StatusCodeUtils.getCodeJsonString(StatusCodeUtils.PASSWORD_ERROR);
         }
 
         //获取身份码，原1是顾客，2是雇员 如果是顾客的话就不动，如果是雇员的话，需要从数据库读取权限码然后更改
@@ -60,7 +59,7 @@ public class LoginService {
         String token = UUID.randomUUID().toString();
         redisService.set(token, JSON.toJSONString(new User(loginUser.getUsername(), loginUser.getIdentity())));
         message.put("token", token);
-        message.put("code", StatusCodeUtil.SUCCESS_1);
+        message.put("code", StatusCodeUtils.SUCCESS_1);
         return JSON.toJSONString(message);
     }
 }

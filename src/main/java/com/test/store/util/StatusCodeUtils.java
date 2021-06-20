@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 
 import java.util.HashMap;
 
-public class StatusCodeUtil {
+public class StatusCodeUtils {
     public final static int SUCCESS_1 = 1;
     public final static int SUCCESS_0 = 0;
     public final static int USERNAME_ERROR = -1;

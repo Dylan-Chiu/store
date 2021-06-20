@@ -2,7 +2,7 @@ package com.test.store.service;
 
 import com.alibaba.fastjson.JSON;
 import com.test.store.entity.Goods;
-import com.test.store.util.StatusCodeUtil;
+import com.test.store.util.StatusCodeUtils;
 import com.test.store.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -36,9 +36,9 @@ public class GoodsService {
 
         //判定goodsList为空的情况
         if (goodsList.isEmpty()) {
-            message.put("code", StatusCodeUtil.DATA_IS_EMPTY);
+            message.put("code", StatusCodeUtils.DATA_IS_EMPTY);
         } else {
-            message.put("code", StatusCodeUtil.SUCCESS_0);
+            message.put("code", StatusCodeUtils.SUCCESS_0);
         }
 
         message.put("msg", "");
@@ -98,7 +98,7 @@ public class GoodsService {
                     goods.getPrice(), goods.getIntroduction(), goods.getId());
 
         }
-        return StatusCodeUtil.getCodeJsonString(StatusCodeUtil.SUCCESS_0);
+        return StatusCodeUtils.getCodeJsonString(StatusCodeUtils.SUCCESS_0);
     }
 
     public String addGoods(Goods goods, MultipartFile img) {
@@ -106,7 +106,7 @@ public class GoodsService {
         String sql_insert = "INSERT INTO `goods` values(null,?,?,?,?,?,?)";
         int update = jdbcTemplate.update(sql_insert, goods.getName(), goods.getCategory(),
                 goods.getStock(), goods.getPrice(), goods.getIntroduction(), newImageName);
-        return StatusCodeUtil.getCodeJsonString(StatusCodeUtil.SUCCESS_0);
+        return StatusCodeUtils.getCodeJsonString(StatusCodeUtils.SUCCESS_0);
     }
 
     /**

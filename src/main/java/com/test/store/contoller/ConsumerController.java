@@ -2,7 +2,6 @@ package com.test.store.contoller;
 
 import com.test.store.entity.Consumer;
 import com.test.store.service.ConsumerService;
-import com.test.store.util.StatusCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

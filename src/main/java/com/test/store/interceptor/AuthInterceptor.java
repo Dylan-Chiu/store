@@ -21,7 +21,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         String token = request.getHeader("token");
         String username = null;
         Integer identity = null;
-        if (token != null) {
+        if (token != null && redisService.hasKey(token)) {
             String userJsonString = (String) redisService.get(token);
             JSONObject jsonObject = JSON.parseObject(userJsonString);
             identity = jsonObject.getInteger("identity");

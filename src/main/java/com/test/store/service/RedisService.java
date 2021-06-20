@@ -27,6 +27,10 @@ public class RedisService {
         return vo.get(key);
     }
 
+    public boolean hasKey(String key) {
+        return redisTemplate.hasKey(key);
+    }
+
     public Boolean delete(String key) {
         return redisTemplate.delete(key);
     }

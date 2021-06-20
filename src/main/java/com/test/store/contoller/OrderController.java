@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.test.store.entity.Order;
 import com.test.store.entity.OrderDetail;
 import com.test.store.service.OrderService;
-import com.test.store.util.StatusCodeUtil;
+import com.test.store.util.StatusCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +42,7 @@ public class OrderController {
         String username = (String) request.getSession().getAttribute("username");
 
         if (username == null) {//前端页面有判断了，这里简单判断一下
-            return StatusCodeUtil.getCodeJsonString(StatusCodeUtil.USERNAME_ERROR);
+            return StatusCodeUtils.getCodeJsonString(StatusCodeUtils.USERNAME_ERROR);
         }
 
         //创建Order对象传给Service层
