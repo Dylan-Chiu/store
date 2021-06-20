@@ -1,6 +1,7 @@
 package com.test.store.service;
 
 import com.test.store.entity.Consumer;
+import com.test.store.util.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -32,10 +33,13 @@ public class ConsumerService {
             return USERNAME_ERROR;
         }
 
+        //密码使用MD5加密
+        String password_MD5 = PasswordUtils.encrypt(consumer.getPassword());
+        consumer.setPassword(password_MD5);
+
         //添加记录
         String sql_insert = "insert into consumer values(?,?,?,?,?)";
         int update = jdbcTemplate.update(sql_insert, null, consumer.getUsername(), consumer.getPassword(), consumer.getEmail(), consumer.getPhone());
-        System.out.println(update);
         return update;
     }
 
@@ -62,8 +66,11 @@ public class ConsumerService {
         //判断密码是否正确
         String sql_get_password = "select password from consumer where username = ?";
         Map<String, Object> passwordMap = jdbcTemplate.queryForMap(sql_get_password, consumer.getUsername());
-        String password = (String) passwordMap.get("password");
-        int status = consumer.getPassword().equals(password) ? SUCCESS : PASSWORD_ERROR;
+        String realPassword_MD5 = (String) passwordMap.get("password");
+
+        boolean isTruePassword = PasswordUtils.checkPassword(realPassword_MD5,consumer.getPassword());
+
+        int status = isTruePassword ? SUCCESS : PASSWORD_ERROR;
 
         return status;
     }

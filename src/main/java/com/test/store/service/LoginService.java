@@ -2,6 +2,7 @@ package com.test.store.service;
 
 import com.alibaba.fastjson.JSON;
 import com.test.store.entity.Consumer;
+import com.test.store.util.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -25,20 +26,20 @@ public class LoginService {
         int status; // 1是正确，-1是用户名不存在，-2是密码错误
         String sql = "select * from consumer where username = ?";
         List<Map<String, Object>> maps = jdbcTemplate.queryForList(sql, loginConsumer.getUsername());
-         if (maps.isEmpty()) { //用户不存在
+        if (maps.isEmpty()) { //用户不存在
             status = -1;
         } else {
-            String relPassword = (String) maps.get(0).get("password");
-            if(relPassword.equals(loginConsumer.getPassword())) { //密码正确
+            String realPassword_MD5 = (String) maps.get(0).get("password");
+            if(PasswordUtils.checkPassword(realPassword_MD5,loginConsumer.getPassword())) { //密码正确
                 status = 1;
                 String token = UUID.randomUUID().toString();
-                redisService.set(token,loginConsumer.getUsername());
-                message.put("token",token);
+                redisService.set(token, loginConsumer.getUsername());
+                message.put("token", token);
             } else { //密码错误
                 status = -2;
             }
         }
-        message.put("status",status);
+        message.put("status", status);
         return JSON.toJSONString(message);
     }
 }
