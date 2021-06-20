@@ -29,8 +29,10 @@ public class LoginService {
         String sql = null;
         if (loginUser.getIdentity() == 1) { //是顾客
             sql = "select * from consumer where username = ?";
-        } else {//是雇员
+        } else if (loginUser.getIdentity() == 2 || loginUser.getIdentity() == 10) {//是雇员
             sql = "select * from employee where username = ?";
+        } else {
+            return null;
         }
 
         HashMap<String, Object> message = new HashMap<>();
