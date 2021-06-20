@@ -3,6 +3,7 @@ package com.test.store.contoller;
 import com.test.store.entity.Consumer;
 import com.test.store.entity.User;
 import com.test.store.service.LoginService;
+import com.test.store.util.StatusCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +29,11 @@ public class LoginController {
         String password = (String) params.get("password");
         Integer identity = (Integer) params.get("identity");
         User user = new User(username, password, identity);
+
+        //如果以admin进入顾客界面，则直接报USERNAME_ERROR
+        if("admin".equals(user.getUsername()) && user.getIdentity()==1) {
+            return StatusCodeUtils.getCodeJsonString(StatusCodeUtils.USERNAME_ERROR);
+        }
 
         //admin超级管理员，identity为10
         if("admin".equals(user.getUsername())) {
