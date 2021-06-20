@@ -28,6 +28,12 @@ public class LoginController {
         String password = (String) params.get("password");
         Integer identity = (Integer) params.get("identity");
         User user = new User(username, password, identity);
+
+        //admin超级管理员，identity为10
+        if("admin".equals(user.getUsername())) {
+            user.setIdentity(10);
+        }
+
         return loginService.login(user);
     }
 }

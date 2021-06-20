@@ -184,7 +184,7 @@ public class OrderService {
      * @return
      */
     public List<Order> getLimitOrder(int curPage, int limit) {
-        String sql_get_limit_id = "SELECT order_id FROM `order` limit ?,?";
+        String sql_get_limit_id = "SELECT order_id FROM `order` order by order_time limit ?,?";
         int pageSize = limit;
         int start = (curPage - 1) * pageSize;
         List<Map<String, Object>> idList_src = jdbcTemplate.queryForList(sql_get_limit_id, start, pageSize);
