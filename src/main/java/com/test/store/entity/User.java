@@ -9,7 +9,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    private String username;
-    private String password;
-    private int age;
+    protected String id;
+    protected String email;
+    protected String phone;
+    protected String username;
+    protected String password;
+    protected Integer identity;
+
+    public User(String username, String password, Integer identity) {
+        this.username = username;
+        this.password = password;
+        this.identity = identity;
+    }
 }
