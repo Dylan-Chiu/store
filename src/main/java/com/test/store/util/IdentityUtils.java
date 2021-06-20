@@ -16,17 +16,23 @@ public class IdentityUtils {
         String username = (String) request.getSession().getAttribute("username");
         Integer identity = (Integer) request.getSession().getAttribute("identity");
         message.put("username",username);
-        message.put("identity",identity);
+        if(identity == null) {
+            message.put("identity",NO_LOGIN);
+        } else {
+            message.put("identity", identity);
+        }
     }
 
     public static Integer getIdentity(HttpServletRequest request) {
-        return (Integer) request.getSession().getAttribute("identity");
+        Integer identity = (Integer) request.getSession().getAttribute("identity");
+        if(identity == null) {
+            return NO_LOGIN;
+        } else {
+            return identity;
+        }
     }
 
     public static String getUsername(HttpServletRequest request) {
         return (String) request.getSession().getAttribute("username");
     }
-
-
-
 }
