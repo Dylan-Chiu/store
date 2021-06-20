@@ -46,15 +46,6 @@ public class LoginService {
             return StatusCodeUtils.getCodeJsonString(StatusCodeUtils.PASSWORD_ERROR);
         }
 
-        //获取身份码，原1是顾客，2是雇员 如果是顾客的话就不动，如果是雇员的话，需要从数据库读取权限码然后更改
-        if (loginUser.getIdentity() == 2) {
-            String sql_get_identity = "SELECT auth FROM `employee` where username = ?";
-            Map<String, Object> authMap = jdbcTemplate.queryForList(sql, loginUser.getUsername()).get(0);
-            Integer identity = (Integer) authMap.get("identity");
-            loginUser.setIdentity(identity);
-        }
-
-
         //正常登录
         String token = UUID.randomUUID().toString();
         redisService.set(token, JSON.toJSONString(new User(loginUser.getUsername(), loginUser.getIdentity())));
