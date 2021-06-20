@@ -6,6 +6,7 @@ import com.test.store.entity.Employee;
 import com.test.store.service.EmployeeService;
 import com.test.store.util.IdentityUtils;
 import com.test.store.util.StatusCodeUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -80,5 +81,13 @@ public class EmployeeController {
         }
         employeeService.delEmp(delEmpList);
         return getEmployee(request, strPage, strLimit);
+    }
+
+    @RequestMapping("addEmployee")
+    public String addEmployee(HttpServletRequest request,
+                              @RequestBody Map<String, Object> params) {
+        Map data = (Map) params.get("data");
+        Employee employee = JSON.parseObject(JSON.toJSONString(data), Employee.class);
+        return employeeService.addEmployee(employee);
     }
 }
