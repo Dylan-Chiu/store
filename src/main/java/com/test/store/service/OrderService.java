@@ -96,6 +96,7 @@ public class OrderService {
 
     /**
      * 获取订单详细信息
+     *
      * @param id
      * @return
      */
@@ -116,10 +117,14 @@ public class OrderService {
      * @param username
      * @return
      */
-    public List<Order> getOrderListByUsername(String username) {
+    public List<Order> getLimitOrderListByUsername(String username, int curPage, int pageSize) {
+
+        //记录的起始下标
+        int start = (curPage - 1) * pageSize;
+
         //获取该用户的订单列表
-        String sql_get_OrderId_list = "SELECT order_id FROM `order` WHERE username = ?";
-        List<Map<String, Object>> idList_src = jdbcTemplate.queryForList(sql_get_OrderId_list, username);
+        String sql_get_OrderId_list = "SELECT order_id FROM `order` WHERE username = ? limit ?,?";
+        List<Map<String, Object>> idList_src = jdbcTemplate.queryForList(sql_get_OrderId_list, username, start, pageSize);
         ArrayList<String> idList = new ArrayList<>();
         for (Map<String, Object> idMap : idList_src) {
             String id = (String) idMap.get("order_id");
@@ -128,7 +133,6 @@ public class OrderService {
 
         //根据idList获取订单列表
         List<Order> orderList = getOrderByIdList(idList);
-        System.out.println(JSON.toJSONString(orderList));
         return orderList;
     }
 
@@ -199,6 +203,7 @@ public class OrderService {
 
     /**
      * 获取订单总数目
+     *
      * @return
      */
     public Integer getCount() {
@@ -209,6 +214,7 @@ public class OrderService {
 
     /**
      * 改变订单状态
+     *
      * @param id
      * @param status
      * @return

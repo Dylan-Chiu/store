@@ -97,9 +97,35 @@ public class OrderController {
     public String getOrderById(@RequestParam(value = "orderId") String id) {
         List<OrderDetail> detail = orderService.getDetailById(id);
         HashMap<String, Object> message = new HashMap<>();
-        message.put("code",0);
-        message.put("msg","");
-        message.put("data",detail);
+        message.put("code", 0);
+        message.put("msg", "");
+        message.put("data", detail);
+        return JSON.toJSONString(message);
+    }
+
+    @RequestMapping("getLimitByUsername")
+    public String getLimitByUsername(HttpServletRequest request,
+                                     @RequestParam(value = "page", required = false) String strPage,
+                                     @RequestParam(value = "limit", required = false) String strLimit) {
+        String username = (String) request.getSession().getAttribute("username");
+
+        int curPage = 1;
+        if (strPage != null) {
+            curPage = Integer.valueOf(strPage);
+        }
+
+        int pageSize = 10;
+        if (strLimit != null) {
+            pageSize = Integer.valueOf(strLimit);
+        }
+
+        HashMap<String, Object> message = new HashMap<String, Object>();
+        message.put("code", 0);
+        message.put("msg", "");
+        message.put("curPage", curPage);
+        message.put("count", orderService.getCount());
+        List<Order> orderList = orderService.getLimitOrderListByUsername(username, curPage, pageSize);
+        message.put("data", orderList);
         return JSON.toJSONString(message);
     }
 }
