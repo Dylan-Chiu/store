@@ -28,7 +28,7 @@ public class LoginService {
 
         //身份判断
         String sql = null;
-        if(loginUser.getIdentity() == 1) { //是顾客
+        if (loginUser.getIdentity() == 1) { //是顾客
             sql = "select * from consumer where username = ?";
         } else {//是雇员
             sql = "select * from employee where username = ?";
@@ -43,15 +43,24 @@ public class LoginService {
         }
         //验证密码
         String realPassword_MD5 = (String) maps.get(0).get("password");
-        if(!PasswordUtils.checkPassword(realPassword_MD5, loginUser.getPassword())) {//密码错误
+        if (!PasswordUtils.checkPassword(realPassword_MD5, loginUser.getPassword())) {//密码错误
             return StatusCodeUtil.getCodeJsonString(StatusCodeUtil.PASSWORD_ERROR);
         }
 
+        //获取身份码，原1是顾客，2是雇员 如果是顾客的话就不动，如果是雇员的话，需要从数据库读取权限码然后更改
+        if (loginUser.getIdentity() == 2) {
+            String sql_get_identity = "SELECT auth FROM `employee` where username = ?";
+            Map<String, Object> authMap = jdbcTemplate.queryForList(sql, loginUser.getUsername()).get(0);
+            Integer identity = (Integer) authMap.get("identity");
+            loginUser.setIdentity(identity);
+        }
+
+
         //正常登录
         String token = UUID.randomUUID().toString();
-        redisService.set(token, loginUser.getUsername());
+        redisService.set(token, JSON.toJSONString(new User(loginUser.getUsername(), loginUser.getIdentity())));
         message.put("token", token);
-        message.put("code",StatusCodeUtil.SUCCESS_1);
+        message.put("code", StatusCodeUtil.SUCCESS_1);
         return JSON.toJSONString(message);
     }
 }

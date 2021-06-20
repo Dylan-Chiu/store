@@ -1,5 +1,8 @@
 package com.test.store.interceptor;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.test.store.entity.User;
 import com.test.store.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -17,10 +20,15 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("token");
         String username = null;
-        if(token!=null) {
-            username = (String) redisService.get(token);
+        Integer identity = null;
+        if (token != null) {
+            String userJsonString = (String) redisService.get(token);
+            JSONObject jsonObject = JSON.parseObject(userJsonString);
+            identity = jsonObject.getInteger("identity");
+            username = jsonObject.getString("username");
         }
-        request.getSession().setAttribute("username",username);
+        request.getSession().setAttribute("username", username);
+        request.getSession().setAttribute("identity", identity);
         return true;
     }
 

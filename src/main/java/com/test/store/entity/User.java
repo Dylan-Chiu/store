@@ -21,4 +21,9 @@ public class User {
         this.password = password;
         this.identity = identity;
     }
+
+    public User(String username, Integer identity) {
+        this.username = username;
+        this.identity = identity;
+    }
 }
