@@ -2,18 +2,19 @@ package com.test.store.contoller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.test.store.entity.Employee;
 import com.test.store.service.EmployeeService;
 import com.test.store.util.IdentityUtils;
 import com.test.store.util.StatusCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -36,7 +37,6 @@ public class EmployeeController {
         if (strPage != null) {
             curPage = Integer.valueOf(strPage);
         }
-        message.put("curPage", curPage);
         //获取当页商品数
         int limit = 12;
         if (strLimit != null) {
@@ -54,7 +54,31 @@ public class EmployeeController {
 
         //写入状态码
         message.put("code", StatusCodeUtils.SUCCESS_0);
-        message.put("data", employeeService.getLimitEmployee(curPage, limit));
+
+        List<Employee> limitEmployee = employeeService.getLimitEmployee(curPage, limit);
+        if (limitEmployee.isEmpty()) {
+            message.put("curPage", 1);
+        } else {
+            message.put("curPage", curPage);
+        }
+
+        message.put("data", limitEmployee);
         return JSON.toJSONString(message);
+    }
+
+    @RequestMapping("delEmployee")
+    public String delEmployee(HttpServletRequest request,
+                              @RequestParam(value = "page", required = false) String strPage,
+                              @RequestParam(value = "limit", required = false) String strLimit,
+                              @RequestBody Map<String, Object> params) {
+        //获取待删除商品username数组
+        List<String> delEmpList = new ArrayList<>();
+        List<Map> goodsList = (List<Map>) params.get("data");
+        for (Map map : goodsList) {
+            String username = (String) map.get("username");
+            delEmpList.add(username);
+        }
+        employeeService.delEmp(delEmpList);
+        return getEmployee(request, strPage, strLimit);
     }
 }

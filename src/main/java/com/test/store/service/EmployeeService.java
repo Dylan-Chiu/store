@@ -4,6 +4,7 @@ import com.test.store.entity.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,16 @@ public class EmployeeService {
             empList.add(employee);
         }
         return empList;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public int delEmp(List<String> delEmpList) {
+        int update = 0;
+        for (String username : delEmpList) {
+            String sql_del = "DELETE from `employee` where username = ?";
+            update += jdbcTemplate.update(sql_del, username);
+        }
+        return update;
     }
 
 }
