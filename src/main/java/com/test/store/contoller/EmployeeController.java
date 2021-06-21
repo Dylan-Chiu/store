@@ -32,6 +32,11 @@ public class EmployeeController {
     public String getEmployee(HttpServletRequest request,
                               @RequestParam(value = "page", required = false) String strPage,
                               @RequestParam(value = "limit", required = false) String strLimit) {
+        //登录验证
+        if(IdentityUtils.getIdentity(request) == IdentityUtils.NO_LOGIN) {
+            return StatusCodeUtils.getCodeJsonString(StatusCodeUtils.USERNAME_ERROR);
+        }
+
         HashMap<String, Object> message = new HashMap<>();
         //获取当前页
         int curPage = 1;

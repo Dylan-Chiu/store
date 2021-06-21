@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.test.store.entity.Order;
 import com.test.store.entity.OrderDetail;
 import com.test.store.service.OrderService;
+import com.test.store.util.IdentityUtils;
 import com.test.store.util.StatusCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +57,10 @@ public class OrderController {
     public String getOrder(HttpServletRequest request,
                            @RequestParam(value = "page", required = false) String strPage,
                            @RequestParam(value = "limit", required = false) String strLimit) {
+        //登录验证
+        if(IdentityUtils.getIdentity(request) == IdentityUtils.NO_LOGIN) {
+            return StatusCodeUtils.getCodeJsonString(StatusCodeUtils.USERNAME_ERROR);
+        }
 
         HashMap<String, Object> message = new HashMap<String, Object>();
 

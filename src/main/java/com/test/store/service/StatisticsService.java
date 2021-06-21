@@ -2,6 +2,7 @@ package com.test.store.service;
 
 import com.alibaba.fastjson.JSON;
 import com.test.store.entity.FormXYData;
+import com.test.store.util.StatusCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -199,6 +200,7 @@ public class StatisticsService {
         formList.add(form2);
         formList.add(form3);
         formList.add(form4);
+        message.put("code", StatusCodeUtils.SUCCESS_0);
         message.put("data",formList);
         return JSON.toJSONString(message);
     }
