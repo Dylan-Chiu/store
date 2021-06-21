@@ -27,14 +27,8 @@ public class TestController {
 
     @RequestMapping("test")
     public void test() {
-        Map<String, List> weekTurnover = statisticsService.getWeekTurnover();
-        System.out.println(weekTurnover.get("turnover").toString());
-//        System.out.println(result.get("goodsList"));
-//        System.out.println(result.get("amountList"));
-
-//        String sql = "SELECT order_time FROM `order` WHERE order_id = '0389014438'";
-//        List<Map<String, Object>> maps = jdbcTemplate.queryForList(sql);
-//        System.out.println(maps);
+        Map<String, List> topGoods = statisticsService.getTopGoods(10, 7);
+        System.out.println(topGoods.get("goodsList"));
 
     }
 }

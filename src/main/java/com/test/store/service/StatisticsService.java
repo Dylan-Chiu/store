@@ -20,7 +20,7 @@ public class StatisticsService {
      *
      * @return
      */
-    public double[] getHourTurnover() {
+    public List getHourTurnover() {
         //获取当天日期
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -39,7 +39,11 @@ public class StatisticsService {
             Double turnover = Double.valueOf(data.get(i).get("turnover").toString());
             turnoverArray[hour] = turnover;
         }
-        return turnoverArray;
+        ArrayList<Double> turnoverList = new ArrayList<>();
+        for (int i = 0; i < turnoverArray.length; i++) {
+            turnoverList.add(turnoverArray[i]);
+        }
+        return turnoverList;
     }
 
     /**
@@ -171,16 +175,30 @@ public class StatisticsService {
         //1、第一个图表
         String[] X1 = new String[]{"0:00", "", "", "3:00", "","","6:00","","","9:00","","","12:00","","","15:00","","","18:00","","","21:00"};
         List<String> X1List = Arrays.asList(X1);
-        double[] hourTurnover = getHourTurnover();
-        List<double[]> Y1List = Arrays.asList(hourTurnover);
+        List Y1List = getHourTurnover();
         FormXYData form1 = new FormXYData(X1List, Y1List);
 
         //2、第二个图表
+        List X2List = getWeekTurnover().get("dateStrList");
+        List Y2List = getWeekTurnover().get("turnover");
+        FormXYData form2 = new FormXYData(X2List,Y2List);
 
+        //3、第三个图表
+        List X3List = getTopGoods(7, 1).get("goodsList");
+        List Y3List = getTopGoods(7, 1).get("amountList");
+        FormXYData form3 = new FormXYData(X3List,Y3List);
+
+        //4、第四个图表
+        List X4List = getTopGoods(7, 7).get("goodsList");
+        List Y4List = getTopGoods(7, 7).get("amountList");
+        FormXYData form4 = new FormXYData(X4List,Y4List);
 
         //汇总
         ArrayList<FormXYData> formList = new ArrayList<>();
         formList.add(form1);
+        formList.add(form2);
+        formList.add(form3);
+        formList.add(form4);
         message.put("data",formList);
         return JSON.toJSONString(message);
     }
