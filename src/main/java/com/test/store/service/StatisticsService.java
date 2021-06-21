@@ -1,5 +1,7 @@
 package com.test.store.service;
 
+import com.alibaba.fastjson.JSON;
+import com.test.store.entity.FormXYData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -42,10 +44,11 @@ public class StatisticsService {
 
     /**
      * 返回的数据是 6天前、5天前、4天前、3天前、2天前、1天前、当天的成交额
-     *
+     *         result.put("dateStrList",dateStrList); //[6.21,6.22,6.23....]
+     *         result.put("turnover",Arrays.asList(turnoverArray)); [对应的成交额...]
      * @return
      */
-    public double[] getWeekTurnover() {
+    public Map<String, List> getWeekTurnover() {
         String sql = "SELECT date(order_time) `date` ,sum(price*amount) `turnover`\n" +
                 "FROM `order`,order_detail,goods\n" +
                 "WHERE `order`.order_id = order_detail.order_id\n" +
@@ -59,6 +62,16 @@ public class StatisticsService {
         for (int i = 5; i >= 0; i--) {
             dateArray[i] = new Date(dateArray[i + 1].getTime() - 1 * 24 * 3600 * 1000L);
         }
+
+        //准备一个日期数组 如：6.21,6.22,6.23...
+        String[] dateStrArray = new String[7];
+        SimpleDateFormat sdf = new SimpleDateFormat("MM.dd");
+        for (int i = 0; i < dateArray.length; i++) {
+            String format = sdf.format(dateArray[i]);
+            dateStrArray[i] = format;
+        }
+        List<String> dateStrList = Arrays.asList(dateStrArray);
+        System.out.println(dateStrList);
 
         //把数据放进一个Map里
         HashMap<String, Double> turnoverMap = new HashMap<>();
@@ -79,7 +92,15 @@ public class StatisticsService {
                 turnoverArray[i] = turnover;
             }
         }
-        return turnoverArray;
+
+        ArrayList<Double> turnoverList = new ArrayList<>();
+        for(int i=0;i<7;i++) {
+            turnoverList.add(turnoverArray[i]);
+        }
+        HashMap<String, List> result = new HashMap<String, List>();
+        result.put("dateStrList",dateStrList);
+        result.put("turnover",turnoverList);
+        return result;
     }
 
     /**
@@ -134,4 +155,33 @@ public class StatisticsService {
         return result;
     }
 
+    /**
+     * 这个函数特定为了前端的四个数据图形显示
+     * <p>
+     * 连榕榕 20:53:04
+     * form1 x 24个值 从"0:00"开始 每隔三小时 写一次 其他空串"" Y对应24个总金额    form2 以今天为准倒7天  y对应7个成交额
+     * 连榕榕 20:53:46
+     * form3 x 7个销售量最高的名字 y对应它的数量  统计的是当天的    from4一致 统计的是一周的
+     *
+     * @return
+     */
+    public String getTargetData() {
+        HashMap<String, Object> message = new HashMap<String, Object>();
+
+        //1、第一个图表
+        String[] X1 = new String[]{"0:00", "", "", "3:00", "","","6:00","","","9:00","","","12:00","","","15:00","","","18:00","","","21:00"};
+        List<String> X1List = Arrays.asList(X1);
+        double[] hourTurnover = getHourTurnover();
+        List<double[]> Y1List = Arrays.asList(hourTurnover);
+        FormXYData form1 = new FormXYData(X1List, Y1List);
+
+        //2、第二个图表
+
+
+        //汇总
+        ArrayList<FormXYData> formList = new ArrayList<>();
+        formList.add(form1);
+        message.put("data",formList);
+        return JSON.toJSONString(message);
+    }
 }
