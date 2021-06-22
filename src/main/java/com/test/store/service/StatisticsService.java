@@ -145,8 +145,6 @@ public class StatisticsService {
                 "GROUP BY goods_id,`name`\n" +
                 "ORDER BY sum(amount) DESC\n" +
                 "LIMIT ?";
-        System.out.println(leftDateStr);
-        System.out.println(rightDateStr);
         List<Map<String, Object>> maps = jdbcTemplate.queryForList(sql, top);
         List<String> goodsList = new ArrayList<>();
         List<Integer> amountList = new ArrayList<>();
