@@ -3,12 +3,14 @@ package com.test.store.service;
 import com.alibaba.fastjson.JSON;
 import com.test.store.entity.Order;
 import com.test.store.entity.OrderDetail;
+import com.test.store.util.IdentityUtils;
 import com.test.store.util.StatusCodeUtils;
 import com.test.store.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -46,7 +48,7 @@ public class OrderService {
 
 
         //写入order表
-        String sql_insert_order = "insert into `order` values(?,?,?,?)";
+        String sql_insert_order = "insert into `order` values(?,?,?,?,null)";
         jdbcTemplate.update(sql_insert_order, order.getOrder_id(),
                 order.getUsername(), order.getStatus(), order.getOrder_time());
 
@@ -76,6 +78,7 @@ public class OrderService {
         order.setUsername((String) orderData.get("username"));
         order.setStatus((Integer) orderData.get("status"));
         order.setOrder_time((Date) orderData.get("order_time"));
+        order.setAgent((String) orderData.get("agent"));
 
         //处理一下获取到order_time后面有.0的情况
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -215,9 +218,10 @@ public class OrderService {
      * @param status
      * @return
      */
-    public boolean changeStatus(String id, int status) {
-        String sql = "update `order` set `status` = ? where order_id = ?";
-        int update = jdbcTemplate.update(sql, status, id);
+    public boolean changeStatus(HttpServletRequest request, String id, int status) {
+        String agent = IdentityUtils.getUsername(request);
+        String sql = "update `order` set `status` = ?,agent = ? where order_id = ?";
+        int update = jdbcTemplate.update(sql, status, agent, id);
         return update > 0;
     }
 }

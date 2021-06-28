@@ -94,7 +94,7 @@ public class OrderController {
 
         String order_id = (String) params.get("order_id");
         final int ORDER_FINISH = 2;//2是已完成订单
-        orderService.changeStatus(order_id, ORDER_FINISH);
+        orderService.changeStatus(request, order_id, ORDER_FINISH);
         return getOrder(request, strPage, strLimit);
     }
 

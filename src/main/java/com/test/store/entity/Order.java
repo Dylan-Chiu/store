@@ -20,5 +20,5 @@ public class Order {
     private int status;
     private Date order_time;
     private List<OrderDetail> detail;
-
+    private String agent;
 }
