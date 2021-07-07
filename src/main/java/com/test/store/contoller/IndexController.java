@@ -1,15 +1,14 @@
 package com.test.store.contoller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 public class IndexController {
     @Controller
-    public class userController {
+    public class HelloController {
         @RequestMapping("/")
-        public String hello(ModelMap map) {
-            return "login";
+        public String hello(){
+            return "forward:login.html";
         }
     }
 }

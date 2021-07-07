@@ -1,0 +1,182 @@
+body {
+    font-family: "Karla", sans-serif;
+    background-color: #d0d0ce;
+    min-height: 100vh; }
+  
+  .brand-wrapper {
+    margin-bottom: 19px; }
+    .brand-wrapper .logo {
+        width: 452px;
+        position: absolute;
+        height: 166px;
+        left: 96px;
+        top: 37px;
+    }
+  
+  .login-card {
+    border: 0;
+    border-radius: 27.5px;
+    box-shadow: 0 10px 30px 0 rgba(172, 168, 168, 0.43);
+    overflow: hidden; }
+    .login-card-img {
+      border-radius: 0;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -o-object-fit: cover;
+         object-fit: cover; }
+    .login-card .card-body {
+      padding: 85px 60px 60px; }
+      @media (max-width: 422px) {
+        .login-card .card-body {
+          padding: 35px 24px; } }
+    .login-card-description {
+      font-size: 25px;
+      color: #000;
+      font-weight: normal;
+      margin-bottom: 23px; }
+    .login-card form {
+        margin-top: 110px;
+    margin-left: 94px;
+      max-width: 326px; }
+    .login-card .form-control {
+      border: 1px solid #d5dae2;
+      padding: 15px 25px;
+      margin-bottom: 20px;
+      min-height: 45px;
+      font-size: 15px;
+      line-height: 15;
+      font-weight: normal; }
+      .login-card .form-control::-webkit-input-placeholder {
+        color: #919aa3; }
+      .login-card .form-control::-moz-placeholder {
+        color: #919aa3; }
+      .login-card .form-control:-ms-input-placeholder {
+        color: #919aa3; }
+      .login-card .form-control::-ms-input-placeholder {
+        color: #919aa3; }
+      .login-card .form-control::placeholder {
+        color: #919aa3; }
+    .login-card .login-btn {
+      padding: 13px 20px 12px;
+      background-color: #000;
+      border-radius: 4px;
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 20px;
+      color: #fff;
+      margin-bottom: 24px; }
+      .login-card .login-btn:hover {
+        border: 1px solid #000;
+        background-color: transparent;
+        color: #000; }
+    .login-card .forgot-password-link {
+      font-size: 14px;
+      color: #919aa3;
+      margin-bottom: 12px; }
+    .login-card-footer-text {
+      font-size: 16px;
+      color: #0d2366;
+      margin-bottom: 60px; }
+      @media (max-width: 767px) {
+        .login-card-footer-text {
+          margin-bottom: 24px; } }
+    .login-card-footer-nav a {
+      font-size: 14px;
+      color: #919aa3; }
+  
+  .footer-link {
+    position: absolute;
+    bottom: 1rem;
+    text-align: center;
+    width: 100%; }
+    #logist{
+        margin-left: 95px;
+    }
+    .col-md-7{
+        height: 567px;
+    }
+    .col-md-7 #regist{
+        top: 50px;
+        position: absolute;
+    }
+    .form-group{
+        width: 325px;
+    }
+    #confirm_count {
+      position: absolute;
+      border: 1px solid #e5e5e5;
+      font-size: 12px;
+      left: 339px;
+      width: 151px;
+      height: 43px;
+      top: -1px;
+      color: #8f8c8c;
+  }
+  #confirm_count p {
+    display: inline-block;
+    margin: 0px;
+    margin-bottom: 4px;
+}
+#confirm_count:before {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  left: -10px;
+  top: 15px;
+  border-right: 9px solid #e5e5e5;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+}
+#confirm_password {
+  position: absolute;
+  border: 1px solid #e5e5e5;
+  font-size: 12px;
+  left: 339px;
+  width: 151px;
+  height: 43px;
+  top: 66px;
+  color: #8f8c8c;
+}
+#confirm_password p {
+display: inline-block;
+margin: 0px;
+margin-bottom: 4px;
+}
+#confirm_password:before {
+position: absolute;
+content: "";
+width: 0;
+height: 0;
+left: -10px;
+top: 15px;
+border-right: 9px solid #e5e5e5;
+border-top: 7px solid transparent;
+border-bottom: 7px solid transparent;
+}
+.login-card #regist{
+  margin-top: 120px;
+}
+#checkIdentity{
+  text-align: right;
+  margin-bottom: 5px;
+}
+#checkIdentity label{
+  font-size: 14px;
+}
+#checkIdentity i{
+  font-style: normal;
+  font-size: 13px;
+  margin-right: 2px;
+}
+input#login {
+  margin-top: 44px;
+}
+  /*# sourceMappingURL=login.css.map */
+#return{
+  position: absolute;
+  top: 530px;
+  left: 153px;
+}
+  

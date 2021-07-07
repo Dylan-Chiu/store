@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/config.js"></script>
+    <script src="js/purchase_js.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/jquery-3.5.1.js"></script>
+    <script src="layui/layui.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/purchase_css.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <title>购买页</title>
+</head>
+
+<body>
+    <header>
+        <img src="/images/title.png" alt="" width="600px" height="250px">
+    </header>
+    <nav class="nav">
+        <!--         <div>
+            <i class="layui-icon layui-icon-log" style="font-size: 18px;" id="viewPurchase">查看购买记录</i>
+        </div> -->
+        <div id="elnav" style="z-index: 999;">
+            <div id="purchase_car" @mouseenter=enter @mouseleave=leave>
+                <img src="images/car.png" alt="">
+                <div id="purchase_list" v-show="isShow">
+                    <ul @scroll="scroll">
+                        <li class="purchase_lists" id="top">
+                            <div class="lists_one" style="background-color: #fbfafa;border: 1px solid #f6f6f6;">名称</div>
+                            <div class="lists_two" style="background-color: #fbfafa;border: 1px solid #f6f6f6;">数量</div>
+                        </li>
+                        <li class="purchase_lists" v-for="(item,index) in listNum">
+                            <div class="lists_one">{{listName[index]}}</div>
+                            <div class="lists_two">{{listNum[index]}}</div>
+                        </li>
+                    </ul>
+                    <div id="purchase"><button id="goumai" @click="clicks">购买</button></div>
+
+                </div>
+            </div>
+        </div>
+        <ul class="layui-nav layui-bg-white" style="position: absolute;">
+            <li class="layui-nav-item">
+                <div id="user" style="position: absolute; top:-250px;left: 1340px;">
+                    <div style="color: white; " id="usernames"></div>
+                    <dl class="layui-nav-child">
+                        <!-- <dd><a href="javascript:;">修改信息</a></dd> -->
+                        <dd id="viewPurchase"><a>购买记录</a></dd>
+                        <dd><a href="javascript:;" onclick="quit()" id="tuichu">退出</a></dd>
+                    </dl>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <div id="bd">
+        <div class="w">
+            <ul>
+                <li class="commodity" v-show="li_show">
+                    <div class="mess">
+                        <h3>{{name}}</h3>
+                        <span class="fuhao">¥</span>
+                        <span class="price">{{price}}</span>
+                    </div>
+                    <div class="img"><img :src="img_url" alt=""></div>
+                    <p>{{introduce}}</p>
+                    <div class="input_num">
+                        <button class="sub" v-show="isShow" @click=sub>-</button>
+                        <span v-show="isShow">{{purch_num}}</span>
+                        <button class="add" @click=add>+</button>
+                    </div>
+                </li>
+                <li class="commodity" v-show="li_show">
+                    <div class="mess">
+                        <h3>{{name}}</h3>
+                        <span class="fuhao">¥</span>
+                        <span class="price">{{price}}</span>
+                    </div>
+                    <div class="img"><img :src=img_url alt=""></div>
+                    <p>{{introduce}}</p>
+                    <div class="input_num">
+                        <button class="sub" v-show="isShow" @click=sub>-</button>
+                        <span v-show="isShow">{{purch_num}}</span>
+                        <button class="add" @click=add>+</button>
+                    </div>
+
+                </li>
+                <li class="commodity" v-show="li_show">
+                    <div class="mess">
+                        <h3>{{name}}</h3>
+                        <span class="fuhao">¥</span>
+                        <span class="price">{{price}}</span>
+                    </div>
+                    <div class="img"><img :src="img_url" alt=""></div>
+                    <p>{{introduce}}</p>
+                    <div class="input_num">
+                        <button class="sub" v-show="isShow" @click=sub>-</button>
+                        <span v-show="isShow">{{purch_num}}</span>
+                        <button class="add" @click=add>+</button>
+                    </div>
+
+                </li>
+                <li class="commodity" v-show="li_show">
+                    <div class="mess">
+                        <h3>{{name}}</h3>
+                        <span class="fuhao">¥</span>
+                        <span class="price">{{price}}</span>
+                    </div>
+                    <div class="img"><img :src="img_url" alt=""></div>
+                    <p>{{introduce}}</p>
+                    <div class="input_num">
+                        <button class="sub" v-show="isShow" @click=sub>-</button>
+                        <span v-show="isShow">{{purch_num}}</span>
+                        <button class="add" @click=add>+</button>
+                    </div>
+
+                </li>
+                <li class="commodity" v-show="li_show">
+                    <div class="mess">
+                        <h3>{{name}}</h3>
+                        <span class="fuhao">¥</span>
+                        <span class="price">{{price}}</span>
+                    </div>
+                    <div class="img"><img :src="img_url" alt=""></div>
+                    <p>{{introduce}}</p>
+                    <div class="input_num">
+                        <button class="sub" v-show="isShow" @click=sub>-</button>
+                        <span v-show="isShow">{{purch_num}}</span>
+                        <button class="add" @click=add>+</button>
+                    </div>
+
+                </li>
+                <li class="commodity" v-show="li_show">
+                    <div class="mess">
+                        <h3>{{name}}</h3>
+                        <span class="fuhao">¥</span>
+                        <span class="price">{{price}}</span>
+                    </div>
+                    <div class="img"><img :src="img_url" alt=""></div>
+                    <p>{{introduce}}</p>
+                    <div class="input_num">
+                        <button class="sub" v-show="isShow" @click=sub>-</button>
+                        <span v-show="isShow">{{purch_num}}</span>
+                        <button class="add" @click=add>+</button>
+                    </div>
+
+                </li>
+                <li class="commodity" v-show="li_show">
+                    <div class="mess">
+                        <h3>{{name}}</h3>
+                        <span class="fuhao">¥</span>
+                        <span class="price">{{price}}</span>
+                    </div>
+                    <div class="img"><img :src="img_url" alt=""></div>
+                    <p>{{introduce}}</p>
+                    <div class="input_num">
+                        <button class="sub" v-show="isShow" @click=sub>-</button>
+                        <span v-show="isShow">{{purch_num}}</span>
+                        <button class="add" @click=add>+</button>
+                    </div>
+
+                </li>
+                <li class="commodity" v-show="li_show">
+                    <div class="mess">
+                        <h3>{{name}}</h3>
+                        <span class="fuhao">¥</span>
+                        <span class="price">{{price}}</span>
+                    </div>
+                    <div class="img"><img :src="img_url" alt=""></div>
+                    <p>{{introduce}}</p>
+                    <div class="input_num">
+                        <button class="sub" v-show="isShow" @click=sub>-</button>
+                        <span v-show="isShow">{{purch_num}}</span>
+                        <button class="add" @click=add>+</button>
+                    </div>
+
+                </li>
+                <li class="commodity" v-show="li_show">
+                    <div class="mess">
+                        <h3>{{name}}</h3>
+                        <span class="fuhao">¥</span>
+                        <span class="price">{{price}}</span>
+                    </div>
+                    <div class="img"><img :src="img_url" alt=""></div>
+                    <p>{{introduce}}</p>
+                    <div class="input_num">
+                        <button class="sub" v-show="isShow" @click=sub>-</button>
+                        <span v-show="isShow">{{purch_num}}</span>
+                        <button class="add" @click=add>+</button>
+                    </div>
+
+                </li>
+                <li class="commodity" v-show="li_show">
+                    <div class="mess">
+                        <h3>{{name}}</h3>
+                        <span class="fuhao">¥</span>
+                        <span class="price">{{price}}</span>
+                    </div>
+                    <div class="img"><img :src="img_url" alt=""></div>
+                    <p>{{introduce}}</p>
+                    <div class="input_num">
+                        <button class="sub" v-show="isShow" @click=sub>-</button>
+                        <span v-show="isShow">{{purch_num}}</span>
+                        <button class="add" @click=add>+</button>
+                    </div>
+
+                </li>
+                <li class="commodity" v-show="li_show">
+                    <div class="mess">
+                        <h3>{{name}}</h3>
+                        <span class="fuhao">¥</span>
+                        <span class="price">{{price}}</span>
+                    </div>
+                    <div class="img"><img :src="img_url" alt=""></div>
+                    <p>{{introduce}}</p>
+                    <div class="input_num">
+                        <button class="sub" v-show="isShow" @click=sub>-</button>
+                        <span v-show="isShow">{{purch_num}}</span>
+                        <button class="add" @click=add>+</button>
+                    </div>
+
+                </li>
+                <li class="commodity" v-show="li_show">
+                    <div class="mess">
+                        <h3>{{name}}</h3>
+                        <span class="fuhao">¥</span>
+                        <span class="price">{{price}}</span>
+                    </div>
+                    <div class="img"><img :src="img_url" alt=""></div>
+                    <p>{{introduce}}</p>
+                    <div class="input_num">
+                        <button class="sub" v-show="isShow" @click=sub>-</button>
+                        <span v-show="isShow">{{purch_num}}</span>
+                        <button class="add" @click=add>+</button>
+                    </div>
+
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <footer class="froot" style="background: #f4f4f4;">
+        <div id="page"></div>
+    </footer>
+</body>
+
+</html>

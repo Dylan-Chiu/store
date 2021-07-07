@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login Template</title>
+    <link href="css/login_one.css" rel="stylesheet">
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/login_two.css">
+    <link rel="stylesheet" href="css/login_three.css">
+    <script src="js/config.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <script src="js/login.js"></script>
+    <script src="layui/layui.js"></script>
+    <script src="js/jquery-3.5.1.js"></script>
+</head>
+
+<body>
+    <div id="checkIdentity" style="position: absolute; top: 400px; left: 930px; z-index: 999;;">
+        <form class="layui-form" action="" id="formIdentity">
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <input type="radio" name="identity" value="1" title="顾客" checked>
+                    <input type="radio" name="identity" value="2" title="员工">
+                </div>
+            </div>
+        </form>
+    </div>
+    <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+        <div class="container">
+            <div class="card login-card">
+                <div class="row no-gutters">
+                    <div class="col-md-5">
+                        <img src="images/login2.jpg" alt="login" class="login-card-img" width="100%" height="100%">
+                    </div>
+
+                    <div class="col-md-7">
+                        <div class="card-body">
+                            <div class="brand-wrapper">
+                                <img src="images/title.png" alt="logo" class="logo" width="100%" height="100%">
+                            </div>
+                            <form action="" v-show="isShow_login" id="login">
+                                <div class="form-group">
+                                    <label for="count" class="sr-only">count</label>
+                                    <input type="email" name="email" id="count" class="form-control" placeholder="用户名"
+                                        @click=get_blue("logincount") autocomplete="off">
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="password" class="sr-only">Password</label>
+                                    <input type="password" name="password" id="password" class="form-control"
+                                        placeholder="密码" @click=get_blue("loginpassword")>
+                                </div>
+                                <input name="login" id="login" class="btn btn-block login-btn mb-4" type="button"
+                                    value="登   录" @click=get_login_message>
+
+                            </form>
+                            <form action="#!" id="regist" v-show="isShow_regist">
+                                <div id="confirm_count" v-show="isShow_count">
+                                    <p>
+                                        &nbsp&nbsp用户名不能为空
+                                    </p>
+                                    <p>
+                                        &nbsp&nbsp4-16位：字母,数字,下划线
+                                    </p>
+                                </div>
+                                <div id="confirm_password" v-show="isShow_password">
+                                    <p>
+                                        &nbsp&nbsp密码不能为空
+                                    </p>
+                                    <p>
+                                        &nbsp&nbsp6-20位：字母,数字,下划线
+                                    </p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="count" class="sr-only">count</label>
+                                    <input type="email" name="count" id="count" class=" form-control" placeholder="用户名"
+                                        autocomplete="off" @blur=vetify_count @click=get_blue("count")>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="password" class="sr-only">Password</label>
+                                    <input type="password" name="password" id="password" class="form-control"
+                                        placeholder="密码" autocomplete="off" @blur=vetify_count
+                                        @click=get_blue("password")>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="email" class="sr-only">email</label>
+                                    <input type="emali" name="email" id="email" class="form-control" placeholder="邮箱"
+                                        autocomplete="off" @blur=vetify_count @click=get_blue("email")>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="phone" class="sr-only">phone</label>
+                                    <input type="text" name="phone" id="phone" class="form-control" placeholder="电话"
+                                        autocomplete="off" @blur=vetify_count @click=get_blue("phone")>
+                                </div>
+                                <input name="login" id="login" class="btn btn-block login-btn mb-4" type="button"
+                                    value="注    册" @click=get_regist_message>
+                            </form>
+                            <p class="login-card-footer-text" id="logist" v-show="isShow_login"> <a href="#!"
+                                    class="text-reset" @click=regist>点此注册</a></p>
+                            <a href="" id="return" style="display: none; color: black;" @click=returnLogin>返回登录界面</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>统计页面</title>
+    <script src="http://127.0.0.1:8080//js/config.js"></script>
+    <script src="http://127.0.0.1:8080//houtai/layuimini/myjs/echarts.min.js"></script>
+    <script src="http://127.0.0.1:8080//houtai/layuimini/myjs/statis.js"></script>
+    <script src="http://127.0.0.1:8080//layui/layui.js"></script>
+    <link rel="stylesheet" href="http://127.0.0.1:8080//layui/css/layui.css">
+</head>
+<style>
+    #body {
+        overflow: hidden;
+        text-align: center;
+        width: 1100px;
+        margin: 0px auto;
+
+    }
+
+    .s {
+        height: 260px;
+        width: 500px;
+        margin-right: 50px;
+        margin-bottom: 70px;
+
+    }
+
+    .container {
+        float: left;
+    }
+</style>
+
+<body>
+    <!--     <form class="layui-form" action="" style="position: absolute;" id="chengeData">
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <select name="city" lay-verify="required" onchange="onChange()" lay-filter="demo">
+                    <option value="0">按小时统计</option>
+                    <option value="1">按天统计</option>
+                </select>
+            </div>
+        </div>
+    </form> -->
+    <div id="body">
+        <div class="container">
+            <h2>当天销售总金额</h2>
+            <div id="showData1" class="s"></div>
+        </div>
+        <div class="container" class="s">
+            <h2>单周销售总金额</h2>
+            <div id="showData2" class="s"></div>
+        </div>
+        <div class="container">
+            <h2>当天成交额</h2>
+            <div id="showData3" class="s"></div>
+        </div>
+        <div class="container">
+            <h2>单周成交额</h2>
+            <div id="showData4" class="s"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>

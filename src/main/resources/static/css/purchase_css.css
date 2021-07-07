@@ -1,0 +1,240 @@
+body{
+}
+
+header{
+    width: 100%;
+    height: 330px;
+    background-color: white;
+    overflow: hidden;
+    background-image: url('../images/bg2.jpg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.nav{
+    top: 270px;
+    pointer-events: all;
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+    height: 60px;
+   /* background: rgb(0, 0, 0,0.2);*/
+}
+.nav i{
+    display: inline-block;
+    margin-top: 20px;
+}
+.nav i:hover{
+    cursor:pointer;
+}
+.nav #purchase_car{
+    width: 60px;
+    height: 60px;
+    top:3px;
+    position: absolute;
+    right: 50px;
+}
+#user div{
+    width: 150px;
+    font-size: 18px;
+    text-shadow:5px 2px 6px #000;
+}
+#user div:hover{
+    cursor:pointer;
+}
+#top{
+    top: 0px;
+    position: absolute;
+}
+.nav ul li:nth-child(2){
+    margin-top: 30px;
+}
+.nav #purchase_list ul{
+    /*height: 365px;*/
+    overflow-y: scroll;
+    overflow-x: hidden;
+    position: relative;
+}
+.nav .purchase_lists{
+    width: 300px;
+    height: 30px;
+    background: white;
+}
+.nav .purchase_lists .lists_one{
+    text-align: center;
+    vertical-align: middle;
+    font-size: 15px;
+    width: 150px;
+    height: 30px;
+    float: left;
+    border: 1px solid #f9f9f9;
+}
+.nav .purchase_lists .lists_two{
+    width: 150px;
+    height: 30px;
+    float: left;
+    border: 1px solid #f9f9f9;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 15px;
+}
+.nav #purchase{
+    background: rgb(255, 255, 255,0.5);
+    width: 300px;
+    height: 35px;
+    z-index: 2;
+    border: 1px solid rgb(172, 169, 169);
+    position: relative;
+}
+.nav #purchase button{
+    z-index: 999;
+    position: absolute;
+    left: 250px;
+    top: 3px;
+    width: 45px;
+    height: 25px;
+    color: white;
+    border-radius: 10px;
+    background-color: rgb(189, 30, 30);
+}
+.nav img{
+    width: 100%;
+    height: 100%;
+}
+.nav #purchase_list{
+    position: absolute;
+    width: 300px;
+    /*height: 400px;*/
+    left: -200px;
+    background: rgb(0, 0, 0,0.5);
+}
+#bd{
+    /*margin-top: 60px;*/
+    width: 100%;
+    background-color: #f4f4f4;
+    overflow: hidden;
+}
+.w{
+    background-color: #f4f4f4;
+    overflow: hidden;
+}
+.w ul{
+    overflow: hidden;
+    padding-left: 60px;
+}
+.w .commodity{
+    width: 300px;
+    height: 380px;
+    border-radius: 25px;
+    background-color: #ffffff;
+    background-image: linear-gradient(#666);
+    float: left;
+    margin-left: 20px;
+    margin-top: 20px;
+    overflow: hidden;
+}
+.w .commodity .img{
+    width: 300px;
+    height: 210px;
+    overflow: hidden;
+    margin-left: 0px;
+
+}
+.w .commodity img{
+    display: block;
+    margin: 5px auto;
+    width: 64%;
+    height: 80%;
+    z-index: 2;
+}
+.w ul .commodity:hover img{
+    transition: 0.7s;
+    transform:scale(1.05);
+}
+.w .commodity .mess{
+    width: 240px;
+    height: 80px;
+    position: relative;
+}
+.w .commodity h3{
+    color: rgb(180, 175, 175);
+    position: absolute;
+    left: 15px;
+    top: 20px;
+    font-size: 40px;
+    letter-spacing: -6px;
+    font-family: '方正姚体';
+    color: rgb(61, 53, 53);
+}
+.w .commodity .mess span{
+    position: absolute;
+    left: 35px;
+    top: 330px;
+    color: #d81b1b;
+    font-family: '华文中宋';
+    font-weight: 600;
+    font-size: 28px;
+    margin-left: 20px;
+}
+.w .commodity .mess .fuhao{
+    left: 19px;
+    top: 336px;
+    font-size: 20px;
+}
+.w .commodity p{
+    margin: 0px auto;
+    width: 205px;
+    height: 40px;
+    font-size: 17px;
+    color: #8f7f7f;
+    font-weight: 500;
+    font-family: '黑体';
+
+}
+.w .commodity .input_num{
+    width: 300px;
+    height: 60px;
+    overflow: hidden;
+    position: relative;
+}
+.w .commodity .input_num span{
+    display: block;
+    position: absolute;
+    width: 25px;
+    height: 18px;
+    left: 216px;
+    top: 11px;
+    font-family: '华文中宋';
+    text-align: center;
+    border-radius: 5px;
+    color: black;
+    font-size: 14px;
+
+
+
+}
+.w .commodity .input_num button{
+    position: absolute;
+    left: 245px;
+    width: 20px;
+    height: 20px;
+    top: 11px;
+    border-radius: 50%;
+    background-color: #ff0000;
+    text-align: center;
+    color: white;
+    font-weight: 1000;
+
+}
+.w .commodity .input_num .sub{
+    left: 196px;
+}
+
+/*底部*/
+.froot {
+    overflow: hidden;
+}
+.froot #page{
+    margin-top: 50px;
+    text-align: center;
+}
