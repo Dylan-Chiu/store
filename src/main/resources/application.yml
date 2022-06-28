@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/store?useSSL=false
+    url: jdbc:mysql://localhost:3306/springboot-store?useSSL=false
     username: root
-    password: password
+    password: 3tkVy.Ge8NhtsJ5
     driver-class-name: com.mysql.jdbc.Driver
   redis:
     host: 127.0.0.1

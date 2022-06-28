@@ -75,13 +75,15 @@
         </div>
     </div>
     <script src="../layuimini/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="../../js/config.js" charset="utf-8"></script>
+
     <script>
         var curPage;//保存当前这页
         layui.use(['form', 'table'], function () {
             var $ = layui.jquery,
                 form = layui.form,
                 table = layui.table;
-
+            const ip = 'http://localhost:8080'
             table.render({
                 elem: '#currentTableId',
                 url: ip + '/Order/getLimitOrders',
