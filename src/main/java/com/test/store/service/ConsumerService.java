@@ -1,6 +1,8 @@
 package com.test.store.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.test.store.entity.Consumer;
+import com.test.store.mapper.ConsumerMapper;
 import com.test.store.util.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,7 +14,7 @@ import java.util.Map;
 public class ConsumerService {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private ConsumerMapper consumerMapper;
 
     /**
      * 检查用户名是否重复，不重复则添加顾客
@@ -25,11 +27,10 @@ public class ConsumerService {
         final int USERNAME_ERROR = -1;
 
         //判断用户名是否存在
-        String sql_exist = "select * from consumer where username = ?";
-        boolean exists = false;
-        int count = jdbcTemplate.queryForList(sql_exist, consumer.getUsername()).size();
-        exists = count > 0;
-        if (exists) {
+        QueryWrapper<Consumer> wrapper = new QueryWrapper<>();
+        wrapper.eq("username", consumer.getUsername());
+        Consumer selected = consumerMapper.selectOne(wrapper);
+        if(selected != null) {
             return USERNAME_ERROR;
         }
 
@@ -38,8 +39,12 @@ public class ConsumerService {
         consumer.setPassword(password_MD5);
 
         //添加记录
-        String sql_insert = "insert into consumer values(?,?,?,?,?)";
-        int update = jdbcTemplate.update(sql_insert, null, consumer.getUsername(), consumer.getPassword(), consumer.getEmail(), consumer.getPhone());
+        Consumer newConsumer = new Consumer();
+        newConsumer.setUsername(consumer.getUsername());
+        newConsumer.setPassword(consumer.getPassword());
+        newConsumer.setEmail(consumer.getEmail());
+        newConsumer.setPhone(consumer.getPhone());
+        int update = consumerMapper.insert(newConsumer);
         return update;
     }
 
@@ -55,23 +60,19 @@ public class ConsumerService {
         final int PASSWORD_ERROR = -2;
 
         //判断用户名是否存在
-        String sql_username_exist = "select * from consumer where username = ?";
         boolean exists = false;
-        int count = jdbcTemplate.queryForList(sql_username_exist, consumer.getUsername()).size();
+        QueryWrapper<Consumer> consumerQueryWrapper = new QueryWrapper<>();
+        consumerQueryWrapper.eq("username", consumer.getUsername());
+        Long count = consumerMapper.selectCount(consumerQueryWrapper);
         exists = count > 0;
         if (!exists) {
             return USERNAME_ERROR;
         }
 
         //判断密码是否正确
-        String sql_get_password = "select password from consumer where username = ?";
-        Map<String, Object> passwordMap = jdbcTemplate.queryForMap(sql_get_password, consumer.getUsername());
-        String realPassword_MD5 = (String) passwordMap.get("password");
-
+        String realPassword_MD5 = consumerMapper.selectOne(consumerQueryWrapper).getPassword();
         boolean isTruePassword = PasswordUtils.checkPassword(realPassword_MD5,consumer.getPassword());
-
         int status = isTruePassword ? SUCCESS : PASSWORD_ERROR;
-
         return status;
     }
 

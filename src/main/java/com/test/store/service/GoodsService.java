@@ -1,7 +1,10 @@
 package com.test.store.service;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.test.store.entity.Goods;
+import com.test.store.mapper.GoodsMapper;
 import com.test.store.util.StatusCodeUtils;
 import com.test.store.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,9 @@ public class GoodsService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private GoodsMapper goodsMapper;
+
     /**
      * 返回所有商品数据
      *
@@ -29,13 +35,16 @@ public class GoodsService {
      */
     public String getAllGoods(String username) {
         HashMap<String, Object> message = new HashMap<String, Object>();
-        List<Map<String, Object>> goodsList = jdbcTemplate.queryForList("select * from goods");
-        message.put("data", goodsList);
-        message.put("count", getGoodsCount());
+
+        QueryWrapper<Goods> goodsQueryWrapper = new QueryWrapper<>();
+        List<Goods> goods = goodsMapper.selectList(goodsQueryWrapper);
+
+        message.put("data", goods);
+        message.put("count", goods.size());
         message.put("username", username);
 
         //判定goodsList为空的情况
-        if (goodsList.isEmpty()) {
+        if (goods.size() == 0) {
             message.put("code", StatusCodeUtils.DATA_IS_EMPTY);
         } else {
             message.put("code", StatusCodeUtils.SUCCESS_0);
@@ -52,10 +61,11 @@ public class GoodsService {
      * @param length
      * @return
      */
-    public List<Map<String, Object>> getLimitGoods(int start, int length) {
-        String sql = "select * from goods limit ?,?";
-        List<Map<String, Object>> goodsList = jdbcTemplate.queryForList(sql, start, length);
-        return goodsList;
+    public List<Goods> getLimitGoods(int start, int length) {
+        QueryWrapper<Goods> goodsQueryWrapper = new QueryWrapper<>();
+        goodsQueryWrapper.last(" limit " + start + "," + length);
+        List<Goods> goods = goodsMapper.selectList(goodsQueryWrapper);
+        return goods;
     }
 
     /**
@@ -64,9 +74,9 @@ public class GoodsService {
      * @return
      */
     public Integer getGoodsCount() {
-        String sql = "select count(*) from goods";
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
-        return count;
+        QueryWrapper<Goods> goodsQueryWrapper = new QueryWrapper<>();
+        long count = goodsMapper.selectCount(goodsQueryWrapper);
+        return Math.toIntExact(count);
     }
 
     /**
@@ -80,8 +90,7 @@ public class GoodsService {
     public int delGoods(List<Integer> delGoodsList) {
         int update = 0;
         for (Integer id : delGoodsList) {
-            String sql_del = "DELETE from `goods` where id = ?";
-            update += jdbcTemplate.update(sql_del, id);
+            update += goodsMapper.deleteById(id);
         }
         return update;
     }
@@ -103,9 +112,8 @@ public class GoodsService {
 
     public String addGoods(Goods goods, MultipartFile img) {
         String newImageName = saveGoodsImg(img);
-        String sql_insert = "INSERT INTO `goods` values(null,?,?,?,?,?,?)";
-        int update = jdbcTemplate.update(sql_insert, goods.getName(), goods.getCategory(),
-                goods.getStock(), goods.getPrice(), goods.getIntroduction(), newImageName);
+        goods.setImgName(newImageName);
+        goodsMapper.insert(goods);
         return StatusCodeUtils.getCodeJsonString(StatusCodeUtils.SUCCESS_0);
     }
 

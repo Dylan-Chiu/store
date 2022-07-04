@@ -1,7 +1,12 @@
 package com.test.store.service;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.test.store.entity.Consumer;
+import com.test.store.entity.Employee;
 import com.test.store.entity.User;
+import com.test.store.mapper.ConsumerMapper;
+import com.test.store.mapper.EmployeeMapper;
 import com.test.store.util.PasswordUtils;
 import com.test.store.util.StatusCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,30 +25,34 @@ public class LoginService {
     private RedisService redisService;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private EmployeeMapper employeeMapper;
 
+    @Autowired
+    private ConsumerMapper consumerMapper;
 
     public String login(User loginUser) {
-
+        User user;
         //身份判断
-        String sql = null;
         if (loginUser.getIdentity() == 1) { //是顾客
-            sql = "select * from consumer where username = ?";
+            QueryWrapper<Consumer> consumerQueryWrapper = new QueryWrapper<>();
+            consumerQueryWrapper.eq("username", loginUser.getUsername());
+            user = consumerMapper.selectOne(consumerQueryWrapper);
         } else if (loginUser.getIdentity() == 2 || loginUser.getIdentity() == 10) {//是雇员
-            sql = "select * from employee where username = ?";
+            QueryWrapper<Employee> employeeQueryWrapper = new QueryWrapper<>();
+            employeeQueryWrapper.eq("username", loginUser.getUsername());
+            user = employeeMapper.selectOne(employeeQueryWrapper);
         } else {
             return null;
         }
 
         HashMap<String, Object> message = new HashMap<>();
-        List<Map<String, Object>> maps = jdbcTemplate.queryForList(sql, loginUser.getUsername());
 
         //验证用户名
-        if (maps.isEmpty()) { //用户不存在
+        if (user == null) { //用户不存在
             return StatusCodeUtils.getCodeJsonString(StatusCodeUtils.USERNAME_ERROR);
         }
         //验证密码
-        String realPassword_MD5 = (String) maps.get(0).get("password");
+        String realPassword_MD5 = user.getPassword();
         if (!PasswordUtils.checkPassword(realPassword_MD5, loginUser.getPassword())) {//密码错误
             return StatusCodeUtils.getCodeJsonString(StatusCodeUtils.PASSWORD_ERROR);
         }

@@ -16,5 +16,5 @@ public class Page {
     private String msg;
     private int curPage;
     private int code;
-    private List<Map<String,Object>> data;
+    private List<Goods> data;
 }

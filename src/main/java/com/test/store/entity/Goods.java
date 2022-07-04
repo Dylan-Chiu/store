@@ -1,5 +1,7 @@
 package com.test.store.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +16,13 @@ public class Goods {
     private int stock;
     private double price;
     private String introduction;
-    private String img_name;
+
+//    @TableField(value = "img_name")
+    private String imgName;
+
+    // 给前端的图片路径
+    @TableField(exist = false)
+    private String img;
 
     public Goods(String name, String category, int stock, double price, String introduction, String img_name) {
         this.name = name;
@@ -22,6 +30,6 @@ public class Goods {
         this.stock = stock;
         this.price = price;
         this.introduction = introduction;
-        this.img_name = img_name;
+        this.imgName = img_name;
     }
 }

@@ -69,10 +69,9 @@ public class GoodsController {
         //获取商品信息
         int pageSize = limit;
         int start = (curPage - 1) * pageSize;
-        List<Map<String, Object>> goodsList = goodsService.getLimitGoods(start, pageSize);
-        for (Map<String, Object> goods : goodsList) {
-//            System.out.println(goods);
-            goods.put("img", "/goodsImage/" + goods.get("img_name"));
+        List<Goods> goodsList = goodsService.getLimitGoods(start, pageSize);
+        for (Goods goods : goodsList) {
+            goods.setImg("/goodsImage/" + goods.getImgName());
         }
         page.setData(goodsList);
 
@@ -146,7 +145,7 @@ public class GoodsController {
         } else {
             imgName = null;
         }
-        Goods goods = new Goods(Integer.parseInt(id), name, category, Integer.valueOf(stock), Double.valueOf(price), introduction, imgName);
+        Goods goods = new Goods(Integer.parseInt(id), name, category, Integer.valueOf(stock), Double.valueOf(price), introduction, imgName,null);
         return goodsService.modGoods(goods, img);
     }
 

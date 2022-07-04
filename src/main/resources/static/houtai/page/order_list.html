@@ -15,236 +15,238 @@
 </head>
 
 <body>
-    <div class="layuimini-container">
-        <div class="layuimini-main">
+<div class="layuimini-container">
+    <div class="layuimini-main">
 
-            <!--             <fieldset class="table-search-fieldset">
-                <legend>搜索信息</legend>
-                <div style="margin: 10px 10px 10px 10px">
-                    <form class="layui-form layui-form-pane" action="">
-                        <div class="layui-form-item">
-                            <div class="layui-inline">
-                                <label class="layui-form-label">用户姓名</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="username" autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-inline">
-                                <label class="layui-form-label">用户性别</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="sex" autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-inline">
-                                <label class="layui-form-label">用户城市</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="city" autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-inline">
-                                <label class="layui-form-label">用户职业</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" name="classify" autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-inline">
-                                <button type="submit" class="layui-btn layui-btn-primary" lay-submit
-                                    lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+        <!--             <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户姓名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" autocomplete="off" class="layui-input">
                             </div>
                         </div>
-                    </form>
-                </div>
-            </fieldset> -->
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户性别</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="sex" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户城市</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="city" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户职业</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="classify" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit
+                                lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset> -->
 
-            <!--             <script type="text/html" id="toolbarDemo">
-            <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
-                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
-            </div> -->
-            </script>
+        <!--             <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
+            <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
+        </div> -->
+        </script>
 
-            <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
 
-            <script type="text/html" id="currentTableBar">
-            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="view_detail" style="position: absolute; left: 180px;">订单详情</a>
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="view_detail"
+               style="position: absolute; left: 180px;">订单详情</a>
             {{#  if(d.status == 1){ }}<!--该模板控制下面这个a标签是否要显示在界面上-->
-            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="distribute" style="position: absolute; left: 250px;">完成发货</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="distribute"
+               style="position: absolute; left: 250px;">完成发货</a>
             {{#  } }}
         </script>
 
-        </div>
     </div>
-    <script src="../layuimini/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
-    <script src="../../js/config.js" charset="utf-8"></script>
+</div>
+<script src="../layuimini/lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="../../js/config.js" charset="utf-8"></script>
 
-    <script>
-        var curPage;//保存当前这页
-        layui.use(['form', 'table'], function () {
-            var $ = layui.jquery,
-                form = layui.form,
-                table = layui.table;
-            const ip = 'http://localhost:8080'
-            table.render({
-                elem: '#currentTableId',
-                url: ip + '/Order/getLimitOrders',
-                toolbar: '#toolbarDemo',
-                defaultToolbar: ['filter', 'exports', 'print', {
-                    title: '提示',
-                    layEvent: 'LAYTABLE_TIPS',
-                    icon: 'layui-icon-tips'
-                }],
-                cols: [[
-                    { type: "checkbox", width: 50 },
-                    { field: 'order_id', width: 150, title: '订单号' },
-                    { field: 'username', width: 150, title: '下单者' },
-                    {
-                        field: 'order_time', width: 160, title: '下单时间', sort: true,
-                        templet: function (d) {
-                            var time = new Date(d.order_time);
-                            return time.toLocaleDateString().replace(/\//g, "-") + " " + time.toTimeString().substr(0, 8)
-                        }
-                    },
-                    {
-                        field: 'status', width: 150, title: '订单状态', sort: true, templet: function (d) {
-                            if (d.status == 1)
-                                return '未发货';
-                            else
-                                return '已发货';
-                        }
-                    },
-                    { field: 'agent', width: 150, title: '配送者' },
-                    { title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center" }
-                ]],
-                limit: 10,
-                page: {
-                    first: false,
-                    last: false
+<script>
+    var curPage;//保存当前这页
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+        const ip = 'http://localhost:8080'
+        table.render({
+            elem: '#currentTableId',
+            url: ip + '/Order/getLimitOrders',
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [[
+                {type: "checkbox", width: 50},
+                {field: 'order_id', width: 150, title: '订单号'},
+                {field: 'username', width: 150, title: '下单者'},
+                {
+                    field: 'order_time', width: 160, title: '下单时间', sort: true,
+                    templet: function (d) {
+                        var time = new Date(d.order_time);
+                        return time.toLocaleDateString().replace(/\//g, "-") + " " + time.toTimeString().substr(0, 8)
+                    }
                 },
-                skin: 'line',
-                headers: { token: sessionStorage.getItem("token") },
-                parseData: function (d) {
-                    if (d.code == "-1") {
-                        return {
-                            code: "-1",
-                            msg: "未登录"
-                        }
+                {
+                    field: 'status', width: 150, title: '订单状态', sort: true, templet: function (d) {
+                        if (d.status == 1)
+                            return '未发货';
+                        else
+                            return '已发货';
                     }
-                    curPage = d.curPage;
-                }//拿到返回后的renponse数据
-            });
-
-            // 监听搜索操作
-            form.on('submit(data-search-btn)', function (data) {
-                var result = JSON.stringify(data.field);
-                layer.alert(result, {
-                    title: '最终的搜索信息'
-                });
-
-                //执行搜索重载
-                table.reload('currentTableId', {
-                    page: {
-                        curr: 1
+                },
+                {field: 'agent', width: 150, title: '配送者'},
+                {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+            ]],
+            limit: 10,
+            page: {
+                first: false,
+                last: false
+            },
+            skin: 'line',
+            headers: {token: sessionStorage.getItem("token")},
+            parseData: function (d) {
+                if (d.code == "-1") {
+                    return {
+                        code: "-1",
+                        msg: "未登录"
                     }
-                    , where: {
-                        searchParams: result
-                    }
-                }, 'data');
-
-                return false;
-            });
-
-            /**
-             * toolbar监听事件
-             */
-            table.on('toolbar(currentTableFilter)', function (obj) {
-                if (obj.event === 'add') {  // 监听添加操作
-                    var index = layer.open({
-                        title: '添加用户',
-                        type: 2,
-                        shade: 0.2,
-                        maxmin: true,
-                        shadeClose: true,
-                        area: ['100%', '100%'],
-                        content: '../page/table/add.html',
-                    });
-                    $(window).on("resize", function () {
-                        layer.full(index);
-                    });
-                } else if (obj.event === 'delete') {  // 监听删除操作
-                    var checkStatus = table.checkStatus('currentTableId')
-                        , data = checkStatus.data;
-                    layer.alert(JSON.stringify(data));
                 }
-            });
-
-            //监听表格复选框选择
-            table.on('checkbox(currentTableFilter)', function (obj) {
-                console.log(obj)
-            });
-
-            table.on('tool(currentTableFilter)', function (obj) {
-                var data = obj.data;
-                if (obj.event === 'view_detail') {
-                    var layer = layui.layer;
-                    var index = layer.open({
-                        title: '查看订单详情',
-                        type: 2,
-                        shade: 0.2,
-                        maxmin: true,
-                        shadeClose: true,
-                        area: ['100%', '100%'],
-                        content: 'order_edit.html',
-                        success: function (layero, index) {//进行数据回显函数
-
-                            var body = layer.getChildFrame('body', index);
-                            var tas = body.find("#demo");
-                            body.find("#id").val(obj.data.order_id);
-                            body.find("#name").val(obj.data.username);
-                            var time = new Date(obj.data.order_time);
-                            time = time.toLocaleDateString().replace(/\//g, "-") + " " + time.toTimeString().substr(0, 8)
-                            body.find("#time").val(time);
-                            if (obj.data.status == 1)
-                                body.find("#status").val("未发货");
-                            else
-                                body.find("#status").val("已发货");
-                            var show_res = "";
-                            for (var i = 0; i < obj.data.detail.length; i++) {
-                                show_res += "商品名：" + obj.data.detail[i].goodsName + "             数量：" + obj.data.detail[i].amount + "\n";
-                            }
-                            var tables = layui.table;
-                            tables.render({//用来渲染订单页详情的表格
-                                elem: tas //指定原始表格元素选择器（推荐id选择器）
-                                , height: 200 //容器高度
-                                , width: 324
-                                , url: ip + '/Order/getDetailById'
-                                , cols: [[{ field: 'goodsName', width: 150, title: '商品名', sort: true },
-                                { field: 'amount', width: 90, title: '购买数量' },
-                                { field: 'totalPrice', width: 80, title: '总金额' }] //设置表头
-                                ],
-                                where: { orderId: obj.data.order_id },
-                                page: false
-                            });
-
-
-                        }
-                    });
-                    $(window).on("resize", function () {
-                        layer.full(index);
-                    });
-                    return false;
-                } else if (obj.event === 'distribute') {
-                    data = {};
-                    data.order_id = obj.data.order_id;
-                    data = JSON.stringify(data);
-                    console.log(data);
-                    var url = ip + '/Order/finishOrder/?page=' + curPage + "&limit=10";
-                    send_request(url, "currentTableId", data, curPage);
-                    alert_reminder("发货成功！");
-                }
-            });
-
+                curPage = d.curPage;
+            }//拿到返回后的renponse数据
         });
-    </script>
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            var result = JSON.stringify(data.field);
+            layer.alert(result, {
+                title: '最终的搜索信息'
+            });
+
+            //执行搜索重载
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1
+                }
+                , where: {
+                    searchParams: result
+                }
+            }, 'data');
+
+            return false;
+        });
+
+        /**
+         * toolbar监听事件
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'add') {  // 监听添加操作
+                var index = layer.open({
+                    title: '添加用户',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: '../page/table/add.html',
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            } else if (obj.event === 'delete') {  // 监听删除操作
+                var checkStatus = table.checkStatus('currentTableId')
+                    , data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            }
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'view_detail') {
+                var layer = layui.layer;
+                var index = layer.open({
+                    title: '查看订单详情',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['100%', '100%'],
+                    content: 'order_edit.html',
+                    success: function (layero, index) {//进行数据回显函数
+
+                        var body = layer.getChildFrame('body', index);
+                        var tas = body.find("#demo");
+                        body.find("#id").val(obj.data.order_id);
+                        body.find("#name").val(obj.data.username);
+                        var time = new Date(obj.data.order_time);
+                        time = time.toLocaleDateString().replace(/\//g, "-") + " " + time.toTimeString().substr(0, 8)
+                        body.find("#time").val(time);
+                        if (obj.data.status == 1)
+                            body.find("#status").val("未发货");
+                        else
+                            body.find("#status").val("已发货");
+                        var show_res = "";
+                        for (var i = 0; i < obj.data.detail.length; i++) {
+                            show_res += "商品名：" + obj.data.detail[i].goodsName + "             数量：" + obj.data.detail[i].amount + "\n";
+                        }
+                        var tables = layui.table;
+                        tables.render({//用来渲染订单页详情的表格
+                            elem: tas //指定原始表格元素选择器（推荐id选择器）
+                            , height: 200 //容器高度
+                            , width: 324
+                            , url: ip + '/Order/getDetailById'
+                            , cols: [[{field: 'goodsName', width: 150, title: '商品名', sort: true},
+                                {field: 'amount', width: 90, title: '购买数量'},
+                                {field: 'totalPrice', width: 80, title: '总金额'}] //设置表头
+                            ],
+                            where: {orderId: obj.data.order_id},
+                            page: false
+                        });
+
+
+                    }
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'distribute') {
+                data = {};
+                data.order_id = obj.data.order_id;
+                data = JSON.stringify(data);
+                console.log(data);
+                var url = ip + '/Order/finishOrder/?page=' + curPage + "&limit=10";
+                send_request(url, "currentTableId", data, curPage);
+                alert_reminder("发货成功！");
+            }
+        });
+
+    });
+</script>
 
 </body>
 

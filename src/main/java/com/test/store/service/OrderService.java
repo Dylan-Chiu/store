@@ -1,11 +1,16 @@
 package com.test.store.service;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.test.store.entity.Order;
 import com.test.store.entity.OrderDetail;
+import com.test.store.mapper.OrderDetailMapper;
+import com.test.store.mapper.OrderMapper;
 import com.test.store.util.IdentityUtils;
 import com.test.store.util.StatusCodeUtils;
 import com.test.store.util.UUIDUtils;
+import org.mockito.internal.matchers.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -19,6 +24,12 @@ public class OrderService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private OrderMapper orderMapper;
+
+    @Autowired
+    private OrderDetailMapper orderDetailMapper;
 
     @Autowired
     private UpdateGoodsService updateGoodsService;
@@ -46,17 +57,16 @@ public class OrderService {
             return StatusCodeUtils.getCodeJsonString(StatusCodeUtils.STOCK_ERROR);
         }
 
-
-        //写入order表
-        String sql_insert_order = "insert into `order` values(?,?,?,?,null)";
-        jdbcTemplate.update(sql_insert_order, order.getOrder_id(),
-                order.getUsername(), order.getStatus(), order.getOrder_time());
+        orderMapper.insert(order);
 
         //写入order_detail表
         List<OrderDetail> detail = order.getDetail();
-        String sql_insert_detail = "insert into `order_detail` values(?,?,?)";
         for (OrderDetail d : detail) {
-            jdbcTemplate.update(sql_insert_detail, order.getOrder_id(), d.getGoodsId(), d.getAmount());
+            OrderDetail newDetail = new OrderDetail();
+            newDetail.setOrderId(order.getOrder_id());
+            newDetail.setGoodsId(d.getGoodsId());
+            newDetail.setAmount(d.getAmount());
+            orderDetailMapper.insert(newDetail);
         }
         return StatusCodeUtils.getCodeJsonString(StatusCodeUtils.SUCCESS_1);
     }
@@ -73,8 +83,10 @@ public class OrderService {
         order.setOrder_id(id);
 
         //获取订单表头信息
-        String sql_getOrder = "select * from `order` where order_id = ?";
-        Map<String, Object> orderData = jdbcTemplate.queryForList(sql_getOrder, id).get(0);
+        QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
+        orderQueryWrapper.eq("order_id", id);
+        Map<String, Object> orderData = orderMapper.selectMaps(orderQueryWrapper).get(0);
+
         order.setUsername((String) orderData.get("username"));
         order.setStatus((Integer) orderData.get("status"));
         order.setOrder_time((Date) orderData.get("order_time"));
@@ -104,7 +116,7 @@ public class OrderService {
         List<Map<String, Object>> detail_src = jdbcTemplate.queryForList(sql_getDetail, id);
         List<OrderDetail> detail = new ArrayList<OrderDetail>();
         for (Map<String, Object> d : detail_src) {
-            OrderDetail orderDetail = new OrderDetail((int) d.get("goods_id"), (String) d.get("name"), (int) d.get("amount"), Double.valueOf(d.get("totalPrice").toString()));
+            OrderDetail orderDetail = new OrderDetail(null,(int) d.get("goods_id"), (String) d.get("name"), (int) d.get("amount"), Double.valueOf(d.get("totalPrice").toString()));
             detail.add(orderDetail);
         }
         return detail;
@@ -122,8 +134,10 @@ public class OrderService {
         int start = (curPage - 1) * pageSize;
 
         //获取该用户的订单列表
-        String sql_get_OrderId_list = "SELECT order_id FROM `order` WHERE username = ? limit ?,?";
-        List<Map<String, Object>> idList_src = jdbcTemplate.queryForList(sql_get_OrderId_list, username, start, pageSize);
+        QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
+        orderQueryWrapper.eq("username", username);
+        orderQueryWrapper.last("limit " + start + "," + pageSize);
+        List<Map<String, Object>> idList_src = orderMapper.selectMaps(orderQueryWrapper);
         ArrayList<String> idList = new ArrayList<>();
         for (Map<String, Object> idMap : idList_src) {
             String id = (String) idMap.get("order_id");
@@ -156,8 +170,8 @@ public class OrderService {
      * @return
      */
     public List<Order> getAllOrder() {
-        String sql_get_all_id = "SELECT order_id FROM `order`";
-        List<Map<String, Object>> idList_src = jdbcTemplate.queryForList(sql_get_all_id);
+        QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
+        List<Map<String, Object>> idList_src = orderMapper.selectMaps(orderQueryWrapper);
         List<String> idList = new ArrayList<>();
         for (Map<String, Object> idMap : idList_src) {
             String id = (String) idMap.get("order_id");
@@ -168,18 +182,6 @@ public class OrderService {
     }
 
     /**
-     * 修改订单状态
-     *
-     * @param id
-     * @param status
-     */
-    public boolean modOrderStatus(String id, int status) {
-        String sql = "update `order` set `status` = ? where order_id = ?";
-        int update = jdbcTemplate.update(sql, status, id);
-        return update > 0;
-    }
-
-    /**
      * 根据当前页码和条目数，返回订单列表
      *
      * @param curPage
@@ -187,10 +189,12 @@ public class OrderService {
      * @return
      */
     public List<Order> getLimitOrder(int curPage, int limit) {
-        String sql_get_limit_id = "SELECT order_id FROM `order` order by order_time desc limit ?,?";
         int pageSize = limit;
         int start = (curPage - 1) * pageSize;
-        List<Map<String, Object>> idList_src = jdbcTemplate.queryForList(sql_get_limit_id, start, pageSize);
+        QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
+        orderQueryWrapper.last("limit " + start + "," + pageSize);
+        List<Map<String, Object>> idList_src = orderMapper.selectMaps(orderQueryWrapper);
+
         List<String> idList = new ArrayList<String>();
         for (Map<String, Object> idMap : idList_src) {
             String id = (String) idMap.get("order_id");
@@ -206,9 +210,9 @@ public class OrderService {
      * @return
      */
     public Integer getCount() {
-        String sql = "select count(*) from `order`";
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
-        return count;
+        QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
+        Long count = orderMapper.selectCount(orderQueryWrapper);
+        return Math.toIntExact(count);
     }
 
     /**
@@ -220,8 +224,13 @@ public class OrderService {
      */
     public boolean changeStatus(HttpServletRequest request, String id, int status) {
         String agent = IdentityUtils.getUsername(request);
-        String sql = "update `order` set `status` = ?,agent = ? where order_id = ?";
-        int update = jdbcTemplate.update(sql, status, agent, id);
+
+        UpdateWrapper<Order> orderUpdateWrapper = new UpdateWrapper<>();
+        orderUpdateWrapper.eq("order_id", id);
+        Order order = new Order();
+        order.setStatus(status);
+        order.setAgent(agent);
+        int update = orderMapper.update(order, orderUpdateWrapper);
         return update > 0;
     }
 }
