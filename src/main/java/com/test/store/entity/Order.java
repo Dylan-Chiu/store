@@ -30,5 +30,7 @@ public class Order implements Serializable {
     private Date order_time;
     @TableField(exist = false)
     private List<OrderDetail> detail;
+    @TableField(exist = false)
+    private double totalPrice;
     private String agent;
 }

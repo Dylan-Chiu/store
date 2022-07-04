@@ -102,7 +102,17 @@ public class OrderService {
         }
         order.setOrder_time(time);
         order.setDetail(getDetailById(id));
+        double totalPrice = getTotalPrice(order.getDetail());
+        order.setTotalPrice(totalPrice);
         return order;
+    }
+
+    public double getTotalPrice(List<OrderDetail> details) {
+        double total = 0;
+        for (OrderDetail detail : details) {
+            total += detail.getTotalPrice();
+        }
+        return total;
     }
 
     /**

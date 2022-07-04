@@ -17,7 +17,8 @@ var username;//保存当前用户名
 window.onload = function () {
     if (sessionStorage.getItem("token") != null) {
         alert_reminder("登陆成功！");
-    };
+    }
+    ;
     var url = ip + "/Goods/getGoods?page=1&limit=12";//先得到一次页数请求
     var xhr = new XMLHttpRequest();
     xhr.open("get", url);
@@ -45,15 +46,11 @@ window.onload = function () {
         if (window.pageYOffset >= 270) {
             nav.style.position = 'fixed';
             nav.style.top = '0px';
-        }
-        else {
+        } else {
             nav.style.position = 'absolute';
             nav.style.top = '270px';
         }
     })
-
-
-
 
 
 }
@@ -187,8 +184,7 @@ Bind = function () {//绑定购物车函数 即触发进入与移除事件
                                 listID = [];
                                 //更新当前页购物信息
                                 update_cur_message(cur_page);
-                            }
-                            else {
+                            } else {
                                 layui.use('layer', function () {
                                     var layer = layui.layer;
                                     layer.msg('您还未登录');
@@ -256,8 +252,7 @@ shows_message = function () {
         if (purchase_list[names[i]] == undefined || purchase_list[names[i]][0] <= 0) {
             btn[i].purch_num = 0;//页面上的购买数得清0
             btn[i].isShow = false;//购买数为0 减号也记得隐藏!!!
-        }
-        else {
+        } else {
             btn[i].isShow = true;//购买数不为0 说明有购买量 不能隐藏!!!
             btn[i].purch_num = purchase_list[names[i]][0];
         }
@@ -315,20 +310,23 @@ viewPurchase = function () {
                         url: ip + '/Order/getLimitByUsername',
                         area: ['500px', '300px'],
                         cols: [[
-                            { field: 'order_id', width: 150, title: '订单号' },
+                            {field: 'order_id', width: 150, title: '订单号', align: "center"},
                             {
-                                field: 'order_time', width: 150, title: '下单时间', templet: function (d) {
+                                field: 'order_time', width: 150, align: "center", title: '下单时间', templet: function (d) {
                                     var time = new Date(d.order_time);
                                     return time.toLocaleDateString().replace(/\//g, "-") + " " + time.toTimeString().substr(0, 8)
                                 }, sort: true
                             },
                             {
-                                field: 'status', width: 150, title: '订单状态', templet: function (d) {
+                                field: 'status', width: 100, title: '订单状态', align: "center", templet: function (d) {
                                     if (d.status == 1)
                                         return '未发货';
                                     else
                                         return '已发货';
                                 }
+                            },
+                            {
+                                field: 'totalPrice', width: 120, title: '总金额', align: "center"
                             },
                             {
                                 title: '操作', minWidth: 80, align: "center",
@@ -338,7 +336,7 @@ viewPurchase = function () {
                             }
                         ]],
                         limit: 9999,
-                        headers: { token: sessionStorage.getItem("token") },
+                        headers: {token: sessionStorage.getItem("token")},
                         parseData: function (d) {
                             console.log(d);
                         }//拿到返回后的renponse数据
@@ -361,11 +359,11 @@ viewPurchase = function () {
                                 table.render({//用来渲染订单页详情的表格
                                     elem: body //指定原始表格元素选择器（推荐id选择器）
                                     , url: ip + '/Order/getDetailById'
-                                    , cols: [[{ field: 'goodsName', width: 150, title: '商品名' },
-                                    { field: 'amount', width: 95, title: '购买数量' },
-                                    { field: 'totalPrice', width: 150, title: '总金额' }] //设置表头
+                                    , cols: [[{field: 'goodsName', width: 150, title: '商品名'},
+                                        {field: 'amount', width: 95, title: '购买数量'},
+                                        {field: 'totalPrice', width: 150, title: '总金额'}] //设置表头
                                     ],
-                                    where: { orderId: objs.data.order_id },
+                                    where: {orderId: objs.data.order_id},
                                     page: false
                                 });
                             }
@@ -382,9 +380,7 @@ show_username = function () {
     if (username == null) {
         div.innerHTML = "您还未登录";
         a.innerHTML = "登录";
-    }
-
-    else {
+    } else {
         div.innerHTML = "用户：" + username;
         a.innerHTML = "退出";
     }

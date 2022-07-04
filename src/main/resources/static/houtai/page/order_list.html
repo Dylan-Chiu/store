@@ -67,10 +67,10 @@
 
         <script type="text/html" id="currentTableBar">
             <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="view_detail"
-               style="position: absolute; left: 180px;">订单详情</a>
+               style="position: absolute; left: 0px;">订单详情</a>
             {{#  if(d.status == 1){ }}<!--该模板控制下面这个a标签是否要显示在界面上-->
             <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="distribute"
-               style="position: absolute; left: 250px;">完成发货</a>
+               style="position: absolute; left: 70px;">完成发货</a>
             {{#  } }}
         </script>
 
@@ -115,7 +115,8 @@
                     }
                 },
                 {field: 'agent', width: 150, title: '配送者'},
-                {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+                {field: 'totalPrice', width: 150, title: '总金额'},
+                {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "left"}
             ]],
             limit: 10,
             page: {

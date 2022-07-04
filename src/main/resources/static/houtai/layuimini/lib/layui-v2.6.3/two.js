@@ -30,7 +30,7 @@
     "use strict"; var t = layui.$, i = layui.layer, a = layui.hint(), n = layui.device(), l = "form", r = ".layui-form", s = "layui-this", o = "layui-hide", c = "layui-disabled", u = function () {
         this.config = {
             verify: {
-                sex: [/^男$|^女&/, '请输入"男"或"女"'],
+                sex: [/^[女|男]{1}$/, '请输入"男"或"女"'],
                 name: [/^(?:[\u4e00-\u9fa5·]{2,16})$/, '请输入正确的中文名'],
                 password: [/^(\w){6,20}$/, '密码由6-20位组成'],
                 count: [/^[a-zA-Z0-9_-]{4,16}$/, '账号由4-16位组成'],
