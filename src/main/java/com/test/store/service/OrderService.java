@@ -10,7 +10,6 @@ import com.test.store.mapper.OrderMapper;
 import com.test.store.util.IdentityUtils;
 import com.test.store.util.StatusCodeUtils;
 import com.test.store.util.UUIDUtils;
-import org.mockito.internal.matchers.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
