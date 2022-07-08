@@ -126,19 +126,14 @@ public class GoodsService {
     public String saveGoodsImg(MultipartFile img) {
         //获取原文件名
         String originalFilename = img.getOriginalFilename();
-
         //获取使用uuid生成的十位数字文件名
         String fileName = UUIDUtils.getStringUUID();
-
         //获取文件的后缀名
         String suffix = originalFilename.substring(originalFilename.lastIndexOf(".") + 1, originalFilename.length());
-
         //拼接成新文件名
         String newFileName = fileName + "." + suffix;
-
         //获取项目根路径并转到static/goodsImage
         String path = ClassUtils.getDefaultClassLoader().getResource("").getPath() + "static/goodsImage";
-
         try {
             img.transferTo(new File(path + "\\" + newFileName));
         } catch (Exception e) {

@@ -184,6 +184,15 @@ Bind = function () {//绑定购物车函数 即触发进入与移除事件
                                 listID = [];
                                 //更新当前页购物信息
                                 update_cur_message(cur_page);
+                            } else if  (JSON.parse(xhr.response).code == -3){
+                                alert_reminder("库存发生变化，库存不足！");
+                                purchase_list = {};
+                                listName = [];
+                                listNum = [];//将购买清单记录清空
+                                listPrice = [];
+                                listID = [];
+                                //更新当前页购物信息
+                                update_cur_message(cur_page);
                             } else {
                                 layui.use('layer', function () {
                                     var layer = layui.layer;

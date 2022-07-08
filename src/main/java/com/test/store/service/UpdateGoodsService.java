@@ -15,10 +15,10 @@ public class UpdateGoodsService {
     JdbcTemplate jdbcTemplate;
 
     @Transactional(rollbackFor=Exception.class)
-    public void updateGoods(List<OrderDetail> detail) throws Exception{
+    public void updateGoods(List<OrderDetail> detail) throws Exception {
         for (OrderDetail d : detail) {
             String sql_update = "UPDATE goods set stock = stock - ? where id = ?";
-            jdbcTemplate.update(sql_update,d.getAmount(),d.getGoodsId());
+            jdbcTemplate.update(sql_update, d.getAmount(), d.getGoodsId());
         }
     }
 }
